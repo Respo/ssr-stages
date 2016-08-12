@@ -2,8 +2,6 @@
 Stack Workflow
 ----
 
-> This project is in early stage...
-
 Personal project template based on Respo, Boot, ClojureScript, Cirru Sepal...
 
 ### Develop
@@ -11,13 +9,10 @@ Personal project template based on Respo, Boot, ClojureScript, Cirru Sepal...
 Genetate HTML(`target/index.html`), watch and build ClojureScript:
 
 ```bash
-boot dev
-```
+boot repl # (boot (dev!))
 
-Generate HTML, compile ClojureSript:
-
-```bash
-boot build-simple
+# or
+boot dev!
 ```
 
 Compile and optimize ClojureScript, generate HTML with revision:
@@ -41,7 +36,7 @@ boot deploy
 Get ClojureScript code:
 
 ```bash
-boot compile-cirru
+boot generate-code
 ```
 
 ### License
