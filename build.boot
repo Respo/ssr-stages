@@ -8,7 +8,7 @@
                  [adzerk/boot-test          "1.1.2"       :scope "test"]
                  [mvc-works/hsl             "0.1.2"]
                  [respo/ui                  "0.1.1"]
-                 [respo                     "0.3.13"]])
+                 [respo                     "0.3.14"]])
 
 (require '[adzerk.boot-cljs   :refer [cljs]]
          '[adzerk.boot-reload :refer [reload]]
@@ -21,11 +21,11 @@
 (def +version+ "0.1.0")
 
 (task-options!
-  pom {:project     'mvc-works/stack-workflow
+  pom {:project     'respo/ssr-stages
        :version     +version+
        :description "Workflow"
-       :url         "https://github.com/mvc-works/stack-workflow"
-       :scm         {:url "https://github.com/mvc-works/stack-workflow"}
+       :url         "https://github.com/Respo/ssr-stages"
+       :scm         {:url "https://github.com/Respo/ssr-stages"}
        :license     {"MIT" "http://opensource.org/licenses/mit-license.php"}})
 
 (defn use-text [x] {:attrs {:innerHTML x}})
@@ -37,8 +37,9 @@
       (link {:attrs {:rel "icon" :type "image/png" :href "mvc-works-192x192.png"}})
       (if (:build? data)
         (link (:attrs {:rel "manifest" :href "manifest.json"})))
-      (meta'{:attrs {:charset "utf-8"}})
+      (meta' {:attrs {:charset "utf-8"}})
       (meta' {:attrs {:name "viewport" :content "width=device-width, initial-scale=1"}})
+      (meta' {:attrs {:id "ssr-stages" :content "#{}"}})
       (style (use-text "body {margin: 0;}"))
       (style (use-text "body * {box-sizing: border-box;}"))
       (script {:attrs {:id "config" :type "text/edn" :innerHTML (pr-str data)}}))
@@ -66,7 +67,7 @@
     (start-stack-editor!)
     (target :dir #{"src/"})
     (html-file :data {:build? false})
-    (reload :on-jsload 'stack-workflow.core/on-jsload
+    (reload :on-jsload 'ssr-stages.core/on-jsload
             :cljs-asset-path ".")
     (cljs)
     (target)))
@@ -87,7 +88,7 @@
 
 (deftask rsync []
   (with-pre-wrap fileset
-    (sh "rsync" "-r" "target/" "tiye:repo/mvc-works/stack-workflow" "--exclude" "main.out" "--delete")
+    (sh "rsync" "-r" "target/" "repo.tiye.me:repo/Respo/ssr-stages" "--exclude" "main.out" "--delete")
     fileset))
 
 (deftask build []
@@ -110,4 +111,4 @@
     :source-paths #{"src" "test"})
   (comp
     (watch)
-    (test :namespaces '#{stack-workflow.test})))
+    (test :namespaces '#{ssr-stages.test})))

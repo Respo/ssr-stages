@@ -1,43 +1,28 @@
 
-Stack Workflow
+Respo SSR stages demo
 ----
 
-Personal project template based on Respo, Boot, ClojureScript, Cirru Sepal...
+Client rendering http://repo.tiye.me/Respo/ssr-stages/index.html
+Server side shell rendering http://repo.tiye.me/Respo/ssr-stages/shell.html
+Server side rendering http://repo.tiye.me/Respo/ssr-stages/dynamic.html
+
+### Explanations
+
+* `index.html`: client side...
+* `shell.html`: only page shell is rendered on server side
+* `dynamic.html`: dynamic content rendered on server side
 
 ### Develop
 
-Genetate HTML(`target/index.html`), watch and build ClojureScript:
-
-```bash
-boot repl # (boot (dev!))
-
-# or
-boot dev!
-```
-
-Compile and optimize ClojureScript, generate HTML with revision:
+Build pages locally into `target/`:
 
 ```bash
 boot build-advanced
+export boot_deps=`boot show -c`
+planck -c $boot_deps:src/ -i stages-html.cljs
 ```
 
-Package jar file and install locally:
-
-```bash
-boot build
-```
-
-Package jar file and send to Clojars:
-
-```bash
-boot deploy
-```
-
-Get ClojureScript code:
-
-```bash
-boot generate-code
-```
+Find out more on https://github.com/mvc-works/stack-workflow
 
 ### License
 
