@@ -7,15 +7,15 @@
     [planck.core :refer [spit]]))
 
 (defn use-text [x] {:attrs {:innerHTML x}})
-(defn html-dsl [html-content]
+(defn html-dsl [html-content ssr-stages]
   (make-html
     (html {}
     (head {}
-      (title (use-text "Stack Workflow"))
+      (title (use-text (str "Server side rendering")))
       (link {:attrs {:rel "icon" :type "image/png" :href "mvc-works-192x192.png"}})
       (meta' {:attrs {:charset "utf-8"}})
       (meta' {:attrs {:name "viewport" :content "width=device-width, initial-scale=1"}})
-      (meta' {:attrs {:id "ssr-stages" :content "#{}"}})
+      (meta' {:attrs {:id "ssr-stages" :content (pr-str ssr-stages)}})
       (style (use-text "body {margin: 0;}"))
       (style (use-text "body * {box-sizing: border-box;}"))
       (script {:attrs {:id "config" :type "text/edn" :innerHTML (pr-str {})}}))
@@ -26,7 +26,7 @@
 (defn generate-html [ssr-stages]
   (let [ tree (comp-container {} ssr-stages)
          html-content (make-string tree)]
-    (html-dsl html-content)))
+    (html-dsl html-content ssr-stages)))
 
 (defn -main []
   (spit "target/shell.html" (generate-html #{:shell}))

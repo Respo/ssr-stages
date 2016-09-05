@@ -4,11 +4,12 @@
                  [org.clojure/clojure       "1.8.0"       :scope "test"]
                  [adzerk/boot-cljs          "1.7.228-1"   :scope "test"]
                  [adzerk/boot-reload        "0.4.12"      :scope "test"]
+                 [binaryage/devtools        "0.7.2"       :scope "test"]
                  [cirru/stack-server        "0.1.11"      :scope "test"]
                  [adzerk/boot-test          "1.1.2"       :scope "test"]
                  [mvc-works/hsl             "0.1.2"]
                  [respo/ui                  "0.1.1"]
-                 [respo                     "0.3.14"]])
+                 [respo                     "0.3.15"]])
 
 (require '[adzerk.boot-cljs   :refer [cljs]]
          '[adzerk.boot-reload :refer [reload]]
@@ -33,7 +34,7 @@
   (make-html
     (html {}
     (head {}
-      (title (use-text "Stack Workflow"))
+      (title (use-text "Client rendering"))
       (link {:attrs {:rel "icon" :type "image/png" :href "mvc-works-192x192.png"}})
       (if (:build? data)
         (link (:attrs {:rel "manifest" :href "manifest.json"})))

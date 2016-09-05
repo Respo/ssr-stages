@@ -1,10 +1,14 @@
 
 (ns ssr-stages.core
   (:require [cljs.reader :refer [read-string]]
-            [respo.core :refer [render! clear-cache! falsify-stage!]]
-            [respo.util.format :refer [rigidify-element]]
+            [respo.core :refer [render!
+                                clear-cache!
+                                falsify-stage!
+                                render-element]]
+            [respo.util.format :refer [mute-element]]
             [ssr-stages.comp.container :refer [comp-container]]
-            [cljs.reader :refer [read-string]]))
+            [cljs.reader :refer [read-string]]
+            [devtools.core :as devtools]))
 
 (defn dispatch! [op op-data])
 
@@ -32,9 +36,13 @@
 
 (defn -main []
   (enable-console-print!)
+  (devtools/install!)
   (if (not (empty? ssr-stages))
     (falsify-stage!
-      (rigidify-element (comp-container @store-ref ssr-stages))))
+      (mute-element
+        (render-element
+          (comp-container @store-ref ssr-stages)
+          (atom {})))))
   (render-app!)
   (add-watch store-ref :changes render-app!)
   (add-watch states-ref :changes render-app!)
