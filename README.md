@@ -2,9 +2,9 @@
 Respo SSR stages demo
 ----
 
-Client rendering http://repo.tiye.me/Respo/ssr-stages/index.html
-Server side shell rendering http://repo.tiye.me/Respo/ssr-stages/shell.html
-Server side rendering http://repo.tiye.me/Respo/ssr-stages/dynamic.html
+* Client rendering http://repo.tiye.me/Respo/ssr-stages/index.html
+* Server side shell rendering http://repo.tiye.me/Respo/ssr-stages/shell.html
+* Server side rendering http://repo.tiye.me/Respo/ssr-stages/dynamic.html
 
 ### Explanations
 
