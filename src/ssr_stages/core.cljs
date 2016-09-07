@@ -38,11 +38,14 @@
   (enable-console-print!)
   (devtools/install!)
   (if (not (empty? ssr-stages))
-    (falsify-stage!
-      (mute-element
-        (render-element
-          (comp-container @store-ref ssr-stages)
-          (atom {})))))
+    (let [target (.querySelector js/document "#app")]
+      (falsify-stage!
+        target
+        (mute-element
+          (render-element
+            (comp-container @store-ref ssr-stages)
+            (atom {})))
+        dispatch!)))
   (render-app!)
   (add-watch store-ref :changes render-app!)
   (add-watch states-ref :changes render-app!)

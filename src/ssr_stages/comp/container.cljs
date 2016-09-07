@@ -20,12 +20,21 @@
   (fn [state mutate!]
     (div
       {:style (merge widget/global)}
-      (div {:style style-zero} (comp-text "Zero Content" nil))
+      (div
+        {:style style-zero,
+         :event {:click (fn [e dispatch!] (println "click on zero!"))}}
+        (comp-text "Zero Content" nil))
       (if (contains? ssr-stages :shell)
-        (div {:style style-shell} (comp-text "Shell Content" nil)))
+        (div
+          {:style style-shell,
+           :event
+           {:click (fn [e dispatch!] (println "click on shell!"))}}
+          (comp-text "Shell Content" nil)))
       (if (contains? ssr-stages :dynamic)
         (div
-          {:style style-dynamic}
+          {:style style-dynamic,
+           :event
+           {:click (fn [e dispatch!] (println "click on dynamic!"))}}
           (comp-text "Dynamic Content" nil))))))
 
 (def comp-container (create-comp :container render))
