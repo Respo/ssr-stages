@@ -44,7 +44,7 @@
         (mute-element
           (render-element
             (comp-container @store-ref ssr-stages)
-            (atom {})))
+            states-ref))
         dispatch!)))
   (render-app!)
   (add-watch store-ref :changes render-app!)
