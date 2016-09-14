@@ -12,6 +12,12 @@ Respo SSR stages demo
 * `shell.html`: only page shell is rendered on server side
 * `dynamic.html`: dynamic content rendered on server side
 
+Also more details on:
+
+* SSR in Respo https://github.com/Respo/respo/wiki/SSR
+* Chinese video explanations http://weibo.com/1651843872/E6UXUEZYj
+* Chinese guide https://segmentfault.com/a/1190000006903860
+
 ### Develop
 
 Build pages locally into `target/`:
