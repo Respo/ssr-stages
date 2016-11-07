@@ -2,7 +2,7 @@
 (ns ssr-stages.boot
   (:require
     [respo.alias :refer [html head title script style meta' div link body]]
-    [respo.render.static-html :refer [make-html make-string]]
+    [respo.render.html :refer [make-html make-string]]
     [ssr-stages.comp.container :refer [comp-container]]
     [planck.core :refer [spit]]))
 
@@ -12,7 +12,7 @@
     (html {}
     (head {}
       (title (use-text (str "Server side rendering")))
-      (link {:attrs {:rel "icon" :type "image/png" :href "mvc-works-192x192.png"}})
+      (link {:attrs {:rel "icon" :type "image/png" :href "http://logo.respo.site/respo.png"}})
       (meta' {:attrs {:charset "utf-8"}})
       (meta' {:attrs {:name "viewport" :content "width=device-width, initial-scale=1"}})
       (meta' {:attrs {:id "ssr-stages" :content (pr-str ssr-stages)}})

@@ -1,21 +1,21 @@
 
 (set-env!
- :dependencies '[[org.clojure/clojurescript "1.9.216"     :scope "test"]
-                 [org.clojure/clojure       "1.8.0"       :scope "test"]
+ :dependencies '[[org.clojure/clojure       "1.8.0"       :scope "test"]
+                 [org.clojure/clojurescript "1.9.293"     :scope "test"]
                  [adzerk/boot-cljs          "1.7.228-1"   :scope "test"]
                  [adzerk/boot-reload        "0.4.12"      :scope "test"]
-                 [binaryage/devtools        "0.7.2"       :scope "test"]
-                 [cirru/stack-server        "0.1.11"      :scope "test"]
+                 [binaryage/devtools        "0.8.2"       :scope "test"]
+                 [cirru/boot-stack-server   "0.1.21"      :scope "test"]
                  [adzerk/boot-test          "1.1.2"       :scope "test"]
                  [mvc-works/hsl             "0.1.2"]
-                 [respo/ui                  "0.1.1"]
-                 [respo                     "0.3.21"]])
+                 [respo/ui                  "0.1.3"]
+                 [respo                     "0.3.31"]])
 
 (require '[adzerk.boot-cljs   :refer [cljs]]
          '[adzerk.boot-reload :refer [reload]]
          '[stack-server.core  :refer [start-stack-editor! transform-stack]]
          '[respo.alias        :refer [html head title script style meta' div link body]]
-         '[respo.render.static-html :refer [make-html]]
+         '[respo.render.html  :refer [make-html]]
          '[adzerk.boot-test   :refer :all]
          '[clojure.java.io    :as    io])
 
@@ -24,7 +24,7 @@
 (task-options!
   pom {:project     'respo/ssr-stages
        :version     +version+
-       :description "Workflow"
+       :description "SSR stages of Respo"
        :url         "https://github.com/Respo/ssr-stages"
        :scm         {:url "https://github.com/Respo/ssr-stages"}
        :license     {"MIT" "http://opensource.org/licenses/mit-license.php"}})
@@ -35,7 +35,7 @@
     (html {}
     (head {}
       (title (use-text "Client rendering"))
-      (link {:attrs {:rel "icon" :type "image/png" :href "mvc-works-192x192.png"}})
+      (link {:attrs {:rel "icon" :type "image/png" :href "http://logo.respo.site/respo.png"}})
       (if (:build? data)
         (link (:attrs {:rel "manifest" :href "manifest.json"})))
       (meta' {:attrs {:charset "utf-8"}})
@@ -60,17 +60,21 @@
         (add-resource tmp)
         (commit!)))))
 
+(deftask editor! []
+  (comp
+    (repl)
+    (start-stack-editor!)
+    (target :dir #{"src/"})))
+
 (deftask dev! []
   (set-env!
     :asset-paths #{"assets"})
   (comp
-    (repl)
-    (start-stack-editor!)
-    (target :dir #{"src/"})
+    (editor!)
     (html-file :data {:build? false})
-    (reload :on-jsload 'ssr-stages.core/on-jsload
+    (reload :on-jsload 'ssr-stages.main/on-jsload!
             :cljs-asset-path ".")
-    (cljs)
+    (cljs :compiler-options {:language-in :ecmascript5})
     (target)))
 
 (deftask generate-code []
@@ -83,7 +87,13 @@
     :asset-paths #{"assets"})
   (comp
     (transform-stack :filename "stack-sepal.ir")
-    (cljs :optimizations :advanced)
+    (cljs :optimizations :advanced
+          :compiler-options {:language-in :ecmascript5
+                             :pseudo-names true
+                             :static-fns true
+                             :parallel-build true
+                             :optimize-constants true
+                             :source-map true})
     (html-file :data {:build? true})
     (target)))
 
